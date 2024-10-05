@@ -1,0 +1,51 @@
+﻿@model Models.Dtos.Usuario.InicioSesionDto
+@{
+    ViewData["Title"] = "Inicio de sesión";
+    Layout = "_LayoutLogin";
+}
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card">
+        <div class="row align-items-center text-center">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <h4 class="mb-3 f-w-400">Ingresa tus credenciales</h4>
+                    <form asp-controller="Cuenta" asp-action="InicioSesion" method="post" class="needs-validation" novalidate>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i data-feather="mail"></i></span>
+                            </div>
+                            <input asp-for="@Model.Correo" type="email" class="form-control" placeholder="Correo electrónico" required />
+                        </div>
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i data-feather="lock"></i></span>
+                            </div>
+                            <input asp-for="@Model.Contrasena" type="password" class="form-control" placeholder="Contraseña" required />
+                        </div>
+                        <button class="btn btn-block btn-primary mb-4">Ingresar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    (function () {
+        'use strict'
+        // Obtener todos los formularios a los que queremos aplicar estilos de validación de Bootstrap personalizados
+        var forms = document.querySelectorAll('.needs-validation')
+        // Bucle sobre ellos y evitar el envío
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>

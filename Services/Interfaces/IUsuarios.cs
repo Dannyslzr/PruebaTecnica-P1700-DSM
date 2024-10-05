@@ -1,0 +1,9 @@
+﻿using Models.Dtos.Usuario;
+
+namespace Services.Interfaces
+{
+    public interface IUsuarios
+    {
+        Task<bool> CrearUsuarioAsync(UsuarioDto dto);
+    }
+}
