@@ -22,11 +22,26 @@ namespace Api.Controllers
             try
             {
                 var lst = await _empleados.ObtieneListaEmpleados();
-                return Ok(Result<IEnumerable<EmpleadosDto>>.Success(lst,"Empleados consultados correctamente."));
+                return Ok(Result<IEnumerable<EmpleadosDto>>.Success(lst, "Empleados consultados correctamente."));
             }
             catch (Exception)
             {
                 return BadRequest(Result<bool>.Failure("No es posible consultar empleados en este momento"));
+            }
+        }
+
+        [HttpGet]
+        [Route("ObtenerEmpleadosXId/{idEmpleado}")]
+        public async Task<IActionResult> ObtenerEmpleadosXIdAsync(string idEmpleado)
+        {
+            try
+            {
+                var result = await _empleados.ObtieneEmpleadoXId(idEmpleado);
+                return Ok(Result<EmpleadosDto>.Success(result, "Empleado consultado correctamente."));
+            }
+            catch (Exception)
+            {
+                return BadRequest(Result<bool>.Failure("No es posible obtener empleado en este momento"));
             }
         }
 
@@ -57,6 +72,21 @@ namespace Api.Controllers
             catch (Exception)
             {
                 return BadRequest(Result<bool>.Failure("No es posible registrar empleados en este momento"));
+            }
+        }
+
+        [HttpPost]
+        [Route("ActualizarEmpleado/")]
+        public async Task<IActionResult> ActualizarEmpleadoAsync(EmpleadosDto dto)
+        {
+            try
+            {
+                var result = await _empleados.ActualizarEmpleadoAsync(dto);
+                return Ok(Result<bool>.Success(result, "Empleado actualizado correctamente."));
+            }
+            catch (Exception)
+            {
+                return BadRequest(Result<bool>.Failure("No es posible actualizar empleados en este momento"));
             }
         }
     }

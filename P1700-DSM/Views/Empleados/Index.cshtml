@@ -9,6 +9,9 @@
 <div class="row mb-3">
     <div class="col-12">
         <a class="btn shadow-sm btn-primary" onclick="NuevoEmpleado()" href="#"><i class="fas fa-plus"></i> Nuevo</a>
+        <a class="btn shadow-sm btn-secondary" onclick="EditarEmpleado()" href="#"><i class="fas fa-plus"></i> Editar</a>
+        <a class="btn shadow-sm btn-danger" onclick="EliminarEmpleado()" href="#"><i class="fas fa-plus"></i> Eliminar</a>
+        <a class="btn shadow-sm btn-primary" onclick="testAlert()" href="#">test</a>
     </div>
 </div>
 <div class="row">
@@ -24,10 +27,14 @@
                         <table class="table table-bordered table-hover table-sm" id="tblEmpleados">
                             <thead>
                                 <tr>
+                                    <th>Selecione</th>
                                     <th>Identificación</th>
                                     <th>Nombre</th>
                                     <th>Primer apellido</th>
+                                    <th>Segundo apellido</th>
                                     <th>Fecha creación</th>
+                                    <th>Teléfono</th>
+                                    <th>Tipo</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -35,9 +42,15 @@
                                 @foreach (var ln in Model.LstEmpleados)
                                 {
                                     <tr>
+                                        <td>
+                                            <input type="radio" name="selectedEmployee" class="form-check-input" value="@ln.IdEmpleado" />
+                                        </td>
                                         <td>@ln.Identificacion</td>
                                         <td>@ln.Nombre</td>
                                         <td>@ln.Apellido1</td>
+                                        <td>@ln.Apellido2</td>
+                                        <td>@ln.Telefono</td>
+                                        <td>@ln.TipoEmpleado</td>
                                         <td>@ln.FechaCreacion.ToString("dd-MM-yyyy")</td>
                                         <td>
                                             <a class="btn shadow-sm btn-warning btn-sm" onclick="EditarEmpresa(@ln.IdEmpleado)" href="#"><i class="fas fa-edit"></i> Editar</a>

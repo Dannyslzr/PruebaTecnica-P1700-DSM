@@ -52,6 +52,40 @@ namespace Services.Servicios
             }
         }
 
+        public async Task<EmpleadosDto> ObtieneEmpleadoXId(string idEmpleado)
+        {
+            try
+            {
+                var empleado = await _unitOfWork.GetRepository<Empleados>()
+                                           .All
+                                           .Where(x => x.IdEmpleado.Equals(idEmpleado))
+                                           .FirstOrDefaultAsync();
+
+                var result = new EmpleadosDto
+                {
+                    IdEmpleado = empleado.IdEmpleado,
+                    Identificacion = empleado.Identificacion,
+                    Nombre = empleado.Nombre,
+                    Apellido1 = empleado.Apellido1,
+                    Apellido2 = empleado.Apellido2,
+                    Telefono = empleado.Telefono,
+                    TipoEmpleado = empleado.TipoEmpleado,
+                    IdSupervisor = empleado.IdSupervisor,
+                    Salario = empleado.Salario,
+                    UCreador = empleado.UCreador,
+                    FechaCreacion = empleado.FechaCreacion,
+                    UActualiza = empleado.UActualiza,
+                    FechaActualiza = empleado.FechaActualiza
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("No es posible obtener de empleado por id");
+            }
+        }
+
         public async Task<IEnumerable<EmpleadosDllDto>> ObtieneListaEmpleadosDll()
         {
             try
@@ -106,6 +140,40 @@ namespace Services.Servicios
 
                 var repository = _unitOfWork.GetRepository<Empleados>();
                 repository.Add(entity);
+                await _unitOfWork.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.Rollback();
+                return false;
+            }
+        }
+
+        public async Task<bool> ActualizarEmpleadoAsync(EmpleadosDto dto)
+        {
+            try
+            {
+                await _unitOfWork.BeginTransaction();
+
+                var empleado = await _unitOfWork.GetRepository<Empleados>()
+                    .All
+                    .Where(x => x.IdEmpleado.Equals(dto.IdEmpleado))
+                    .FirstAsync();
+
+                empleado.Identificacion = dto.Identificacion;
+                empleado.Nombre = dto.Nombre;
+                empleado.Apellido1 = dto.Apellido1;
+                empleado.Apellido2 = dto.Apellido2;
+                empleado.Telefono = dto.Telefono;
+                empleado.TipoEmpleado = dto.TipoEmpleado;
+                empleado.IdSupervisor = dto.IdSupervisor;
+                empleado.Salario = dto.Salario;
+                empleado.UActualiza = dto.UActualiza;
+                empleado.FechaActualiza = await _utilidades.ObtenerFecha();
+
+                var repository = _unitOfWork.GetRepository<Empleados>();
+                repository.Update(empleado);
                 await _unitOfWork.Commit();
                 return true;
             }

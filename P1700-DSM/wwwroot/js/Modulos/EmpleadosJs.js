@@ -18,8 +18,102 @@
     });
 }
 
+function RegistrarEmpleado() {
 
+    $.ajax({
+        type: "POST",
+        url: "/Empleados/Crear/",
+        data: $("form").serialize(),
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        dataType: "html",
+        success: function (response) {
 
+            var modalElement = document.getElementById('partialModal');
+            var modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+
+            Swal.fire({
+                title: "Registrado correctamente",
+                text: "",
+                icon: "success"
+            });
+        },
+        failure: function (response) {
+            alert(response.responseText);
+        },
+        error: function (response) {
+            alert(response.responseText);
+        }
+    });
+}
+
+function EditarEmpleado() {
+    var selectedEmployee = document.querySelector('input[name="selectedEmployee"]:checked');
+
+    if (selectedEmployee) {
+        var idEmpleado = selectedEmployee.value;
+
+        $.ajax({
+            type: "GET",
+            url: "/Empleados/ActualizarPartial?idEmpleado=" + idEmpleado,
+            data: '',
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (response) {
+                $("#partialModal").find(".modal-body").html(response);
+                $("#partialModal").modal('show');
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+
+    } else {
+        Swal.fire("Seleccione un empleado para editar.");
+    }
+}
+
+function ActializarEmpleado() {
+
+    $.ajax({
+        type: "POST",
+        url: "/Empleados/Actualizar/",
+        data: $("form").serialize(),
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        dataType: "html",
+        success: function (response) {
+
+            Swal.fire({
+                title: "Actualizado correctamente",
+                text: "",
+                icon: "success"
+            });
+        },
+        failure: function (response) {
+            alert(response.responseText);
+        },
+        error: function (response) {
+            alert(response.responseText);
+        }
+    });
+}
+
+function Procesar() {
+
+    var modo = $("#ModoEdicion").val();
+
+    if (modo == "Crear") {
+        RegistrarEmpleado();
+    } else if (modo == "Editar") {
+        ActializarEmpleado();
+    }
+}
 
 
 $("#tblEmpleados").DataTable({

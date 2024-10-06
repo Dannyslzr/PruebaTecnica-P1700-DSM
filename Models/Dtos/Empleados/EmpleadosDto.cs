@@ -35,5 +35,6 @@ namespace Models.Dtos.Empleados
         public DateTime? FechaActualiza { get; set; }
 
         public SelectList? LstEmpleadosSelect { get; set; }
+        public string ModoEdicion {  get; set; }
     }
 }

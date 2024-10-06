@@ -1,12 +1,13 @@
 ﻿@model Models.Dtos.Empleados.EmpleadosDto
 
-<form asp-controller="Empleados" asp-action="Crear" method="post" class="needs-validation" novalidate>
+<form id="frmEmpleados" class="needs-validation" novalidate>
 
     <input asp-for="@Model.IdEmpleado" type="hidden" class="form-control" />
     <input asp-for="@Model.UCreador" type="hidden" class="form-control shadow-sm" />
     <input asp-for="@Model.FechaCreacion" type="hidden" class="form-control shadow-sm" />
     <input asp-for="@Model.UActualiza" type="hidden" class="form-control shadow-sm" />
     <input asp-for="@Model.FechaActualiza" type="hidden" class="form-control shadow-sm" />
+    <input asp-for="@Model.ModoEdicion" type="hidden" class="form-control shadow-sm" />
     
     <div class="row">
         <div class="col-md-4 col-sm-12 mt-2">
@@ -71,11 +72,23 @@
             </div>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="d-grid gap-2 col-2 mx-auto">
-            <button class="btn shadow-sm btn-success" type="submit"><i class="fas fa-edit"></i> Guardar</button>
+    @if (@Model.ModoEdicion == "Crear")
+    {
+        <div class="row mt-3">
+            <div class="d-grid gap-2 col-2 mx-auto">
+                <button class="btn shadow-sm btn-success" type="submit"><i class="fas fa-edit"></i> Guardar</button>
+            </div>
         </div>
-    </div>
+    }
+    else if (@Model.ModoEdicion == "Editar")
+    {
+        <div class="row mt-3">
+            <div class="d-grid gap-2 col-2 mx-auto">
+                <button class="btn shadow-sm btn-warning" type="submit"><i class="fas fa-edit"></i> Actualizar</button>
+            </div>
+        </div>
+    }
+    
 </form>
 
 <script>
@@ -85,17 +98,20 @@
         // Obtener todos los formularios a los que queremos aplicar estilos de validación de Bootstrap personalizados
         var forms = document.querySelectorAll('.needs-validation')
 
-        // Bucle sobre ellos y evitar el envío
+        // Bucle sobre ellos y evitar el envío si la validación no es correcta
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
                 form.addEventListener('submit', function (event) {
                     if (!form.checkValidity()) {
                         event.preventDefault()
                         event.stopPropagation()
+                    } else {
+                        event.preventDefault(); // Prevenir el submit por defecto
+                        Procesar(); // Llamar a la función si el formulario es válido
                     }
 
                     form.classList.add('was-validated')
                 }, false)
             })
-    })()
+    })();
 </script>
