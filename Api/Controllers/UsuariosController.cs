@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Models.Dtos.Jwt;
+using Models.Dtos.Perfil;
 using Models.Dtos.Results;
 using Models.Dtos.Usuario;
 using Services.Interfaces;
@@ -18,39 +19,31 @@ namespace Api.Controllers
     {
         public IConfiguration _config;
         private readonly IUsuarios _usuarios;
-        public UsuariosController(IConfiguration configuration, IUsuarios usuarios)
+        private readonly IPerfil _perfil;
+
+        public UsuariosController(IConfiguration configuration, IUsuarios usuarios, IPerfil perfil)
         {
             _config = configuration;
             _usuarios = usuarios;
+            _perfil = perfil;
         }
-
         
-        [HttpPost]
-        public async Task<IActionResult> CrearUsuarioAsync(UsuarioDto dto)
+        [HttpPost("Registrar")]
+        public async Task<IActionResult> RegistrarUsuarioAsync(UsuarioDto dto)
         {
             try
             {
-
-                throw new Exception("praa");
-                //var result = _usuarios.CrearUsuarioAsync(dto);
-
-                //if (!result)
-                //{
-
-                //}
-
-                //return Request.CreateResponse(HttpStatusCode.BadRequest,
-                //                                  Result<boo>.Success(result, "Asociados"));
+                var result = await _usuarios.CrearUsuarioAsync(dto);
+                return Ok(Result<bool>.Success(result, "Usuario registrado correctamente."));
             }
             catch (Exception ex)
             {
                 return BadRequest(Result<bool>.Failure("No es posible guardar miembro en este momento"));
             }
-           
         }
 
-        [HttpPost("IniciarSesion")]
-        public async Task<Result<UsuarioInicioSesionDto>> IniciarSesion(InicioSesionDto inicioSesion)
+        [HttpPost("Autenticar")]
+        public async Task<IActionResult> IniciarSesionAsync(InicioSesionDto inicioSesion)
         {
             try
             {
@@ -58,7 +51,7 @@ namespace Api.Controllers
                 var usuario = await _usuarios.ValidaUsuarioSesionAsync(inicioSesion.Correo, inicioSesion.Contrasena);
 
                 if (usuario == null)
-                    return Result<UsuarioInicioSesionDto>.Failure("Usuario o contraseña incorrecta");
+                    return BadRequest(Result<UsuarioInicioSesionDto>.Failure("Usuario o contraseña incorrecta"));
 
                 var jwt = _config.GetSection("Jwt").Get<JwtDto>();
 
@@ -93,11 +86,26 @@ namespace Api.Controllers
                     Perfil = usuario.Perfil,
                 };
 
-                return Result<UsuarioInicioSesionDto>.Success(model, "Sesión iniciada correctamente");
+                return Ok(Result<UsuarioInicioSesionDto>.Success(model, "Sesión iniciada correctamente"));
             }
             catch (Exception)
             {
-                return Result<UsuarioInicioSesionDto>.Failure("No fue posible iniciar sesión");
+                return BadRequest(Result<UsuarioInicioSesionDto>.Failure("No fue posible iniciar sesión"));
+            }
+        }
+
+        [HttpGet]
+        [Route("ObtenerListaPerfilDll/")]
+        public async Task<IActionResult> ObtenerListaPerfilDllAsync()
+        {
+            try
+            {
+                var lst = await _perfil.ObtieneListaPerfilesDll();
+                return Ok(Result<IEnumerable<PerfilDllDto>>.Success(lst, "Perfiles consultados correctamente."));
+            }
+            catch (Exception)
+            {
+                return BadRequest(Result<bool>.Failure("No es posible consultar perfiles en este momento"));
             }
         }
     }

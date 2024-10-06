@@ -8,7 +8,7 @@ using Web.Utilidades;
 
 namespace P1700_DSM.Controllers
 {
-
+    [Authorize]
     public class EmpleadosController : Controller
     {
         private readonly IUtilidades _utils;

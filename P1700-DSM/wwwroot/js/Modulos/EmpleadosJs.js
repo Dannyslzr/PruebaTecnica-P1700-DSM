@@ -42,10 +42,19 @@ function RegistrarEmpleado() {
             }
 
             Swal.fire({
-                title: "Registrado correctamente",
-                text: "",
+                title: "Registrado correctamente2",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ok",
+                denyButtonText: `Don't save`,
                 icon: "success"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#loader-overlay").show();
+                    window.location.href = 'Empleados';
+                } 
             });
+
         },
         failure: function (response) {
             alert(response.responseText);

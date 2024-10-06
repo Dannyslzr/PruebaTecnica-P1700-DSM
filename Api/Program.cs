@@ -10,6 +10,7 @@ builder.Services.AddScoped<IUtilidades, UtilidadesService>();
 builder.Services.AddScoped<IUsuarios, UsuariosService>();
 builder.Services.AddScoped<IEmpleados, EmpleadosService>();
 builder.Services.AddScoped<ITiendas, TiendasService>();
+builder.Services.AddScoped<IPerfil, PerfilService>();
 
 var strCon = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DbContextP1700>(options => options.UseSqlServer(strCon));

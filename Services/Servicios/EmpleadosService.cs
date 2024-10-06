@@ -226,5 +226,24 @@ namespace Services.Servicios
                 return false;
             }
         }
+
+
+        public async Task<ListConsultaEmpleadosModel<>> ConsultaEmpleadosSp(string idEmpleado)
+        {
+            try
+            {
+                await _unitOfWork.BeginTransaction();
+                var repository = _unitOfWork.GetRepository<Empleados>();
+                repository.Update(empleado);
+                await _unitOfWork.Commit();
+                return true;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

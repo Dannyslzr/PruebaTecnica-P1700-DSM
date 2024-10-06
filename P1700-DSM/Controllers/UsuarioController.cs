@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Models.Dtos.Empleados;
-using Models;
-using Models.Dtos.Usuario;
-using Web.Utilidades;
-using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Models;
+using Models.Dtos.Empleados;
+using Models.Dtos.Perfil;
+using Models.Dtos.Tiendas;
+using Models.Dtos.Usuario;
+using System.Security.Claims;
+using Web.Utilidades;
 
 namespace P1700_DSM.Controllers
 {
@@ -33,21 +34,19 @@ namespace P1700_DSM.Controllers
         {
             try
             {
-                dto.RepetirContrasena = "";
-                var url = ApiData.URL + $"User/IniciarSesion/";
+                var url = ApiData.URL + $"User/Autenticar/";
                 var result = await _utils.PostItemGetItem<InicioSesionDto, UsuarioInicioSesionDto>(url, dto, "");
 
                 if (!result.IsSuccess)
                 {
-                    return RedirectToAction("InicioSesion");
+                    return BadRequest("Usuario o contraseña incorrectos.");
                 }
 
                 var usu = result.ValueElement;
 
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, ("").ToUpper()),
-                    new Claim(ClaimTypes.Email, ""),
+                    new Claim(ClaimTypes.Name, usu.Nombre),
                     new Claim("IdUsuario",usu.Id)
                 };
 
@@ -80,6 +79,63 @@ namespace P1700_DSM.Controllers
             {
                 return View(new InicioSesionDto());
             }
+        }
+
+        public async Task<IActionResult> RegistroPartial()
+        {
+            try
+            {
+                var usuario = new UsuarioDto();
+
+                var urlDllPerfil = ApiData.URL + $"User/ObtenerListaPerfilDll/";
+                var tskResultDllPerfil = _utils.GetAsync<IEnumerable<PerfilDllDto>>(urlDllPerfil, "");
+                var urlDllTiendas = ApiData.URL + $"Tiendas/ObtenerListaTiendas/";
+                var tskResultDllTiendas = _utils.GetAsync<IEnumerable<TiendasDto>>(urlDllTiendas, "");
+
+                await Task.WhenAll(tskResultDllPerfil, tskResultDllTiendas);
+                usuario.LstPerfilesSelect = new SelectList(tskResultDllPerfil.Result.ValueElement.ToList(), "IdPerfil", "Descripcion");
+                usuario.LstTiendasSelect = new SelectList(tskResultDllTiendas.Result.ValueElement.ToList(), "IdTienda", "Nombre");
+
+                return PartialView("RegistroUsuarioPartial", usuario);
+            }
+            catch (Exception)
+            {
+                return BadRequest("No fue posible abrir venta de registro de usuario");
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Registrar(UsuarioDto dto)
+        {
+            try
+            {
+                if(dto.Contrasenna != dto.RepetirContrasenna)
+                {
+                    return BadRequest("Contraseñas no concuerdan");
+                }
+
+                dto.IdUsuario = "";
+                var url = ApiData.URL + $"User/Registrar/";
+                var result = await _utils.PostItemGetItem<UsuarioDto, bool>(url, dto, "");
+
+                if (!result.IsSuccess)
+                {
+                    return BadRequest("No fue posible registrar el usuario en este momento");
+                }
+
+                return Ok("Usuario registrado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("InicioSesion");
+            }
+        }
+
+
+        public async Task<IActionResult> Home()
+        {
+            return RedirectToAction("Index", "Home");
         }
     }
 }

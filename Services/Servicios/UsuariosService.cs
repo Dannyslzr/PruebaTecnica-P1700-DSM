@@ -25,13 +25,14 @@ namespace Services.Servicios
             try
             {
                 var constrasena = await _utilidades.EncriptaString(dto.Contrasenna);
-
-                if (string.IsNullOrEmpty(dto.Contrasenna)) dto.Contrasenna = constrasena;
+                dto.Contrasenna = constrasena;
 
                 var usu = new Usuarios()
                 {
                     IdUsuario = Guid.NewGuid().ToString(),
-
+                    Identificacion = dto.Identificacion,
+                    IdPerfil = dto.IdPerfil,
+                    IdTienda = dto.IdTienda,
                     Nombre = dto.Nombre,
                     Apellido1 = dto.Apellido1,
                     Apellido2 = dto.Apellido2,
