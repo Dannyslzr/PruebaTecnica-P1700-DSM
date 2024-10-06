@@ -10,5 +10,6 @@ namespace Services.Interfaces
         Task<bool> GuardaNuevoEmpleadoAsync(EmpleadosDto dto);    
         Task<bool> ActualizarEmpleadoAsync(EmpleadosDto dto);
         Task<bool> EliminarEmpleadoAsync(EmpleadosDto dto);
+        Task<List<ConsultaEmpleadosModel>> ConsultaEmpleadosSp(string idEmpleado, string conn);
     }
 }

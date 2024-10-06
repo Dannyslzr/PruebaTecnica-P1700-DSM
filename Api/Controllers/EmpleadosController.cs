@@ -9,9 +9,11 @@ namespace Api.Controllers
     [Route("[controller]")]
     public class EmpleadosController : Controller
     {
+        private readonly IConfiguration _config;
         private readonly IEmpleados _empleados;
-        public EmpleadosController(IEmpleados empleados)
+        public EmpleadosController(IConfiguration config, IEmpleados empleados)
         {
+            _config = config;
             _empleados = empleados;
         }
 
@@ -102,6 +104,27 @@ namespace Api.Controllers
             catch (Exception)
             {
                 return BadRequest(Result<bool>.Failure("No es posible eliminar empleados en este momento"));
+            }
+        }
+
+        [HttpGet]
+        [Route("ObtieneConsultaEmpleados/{idEmplado}")]
+        public async Task<IActionResult> ObtieneConsultaEmpleados(string idEmplado)
+        {
+            try
+            {
+                if (idEmplado == "todos")
+                {
+                    idEmplado = "";
+                }
+
+                var strCon = _config.GetConnectionString("DefaultConnection");
+                var result = await _empleados.ConsultaEmpleadosSp(idEmplado, strCon);
+                return Ok(Result<List<ConsultaEmpleadosModel>>.Success(result, "Consultado correctamente"));
+            }
+            catch (Exception)
+            {
+                return BadRequest(Result<bool>.Failure("No es posible consultar empleados en este momento"));
             }
         }
     }

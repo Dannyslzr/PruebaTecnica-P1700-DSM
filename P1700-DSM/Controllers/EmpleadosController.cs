@@ -174,5 +174,53 @@ namespace P1700_DSM.Controllers
                 return PartialView();
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ConsultaEmpleados()
+        {
+            var urlConsulta = ApiData.URL + $"Empleados/ObtieneConsultaEmpleados/todos";
+            var tskResultConsulta = _utils.GetAsync<IEnumerable<ConsultaEmpleadosModel>>(urlConsulta, "");
+
+            var urlDll = ApiData.URL + $"Empleados/ObtenerListaEmpleadosDll/{idTienda}";
+            var tskResultEmpleadosDll = _utils.GetAsync<IEnumerable<EmpleadosDllDto>>(urlDll, "");
+
+            await Task.WhenAll(tskResultEmpleadosDll, tskResultConsulta);
+
+            if (!tskResultConsulta.Result.IsSuccess)
+            {
+                //tirar error
+            }
+
+            var model = new ConsultaEmpleadosViewModel()
+            {
+                LstEmpleadosSelect = new SelectList(tskResultEmpleadosDll.Result.ValueElement.ToList(), "IdEmpleado", "Nombre"),
+                Detalle = tskResultConsulta.Result.ValueElement.ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConsultaEmpleados(ConsultaEmpleadosViewModel dto)
+        {
+            var urlConsulta = ApiData.URL + $"Empleados/ObtieneConsultaEmpleados/"+dto.IdEmpleado;
+            var tskResultConsulta = _utils.GetAsync<IEnumerable<ConsultaEmpleadosModel>>(urlConsulta, "");
+
+            var urlDll = ApiData.URL + $"Empleados/ObtenerListaEmpleadosDll/{idTienda}";
+            var tskResultEmpleadosDll = _utils.GetAsync<IEnumerable<EmpleadosDllDto>>(urlDll, "");
+
+            await Task.WhenAll(tskResultEmpleadosDll, tskResultConsulta);
+
+            if (!tskResultConsulta.Result.IsSuccess)
+            {
+                //tirar error
+            }
+
+            dto.LstEmpleadosSelect = new SelectList(tskResultEmpleadosDll.Result.ValueElement.ToList(), "IdEmpleado", "Nombre");
+            dto.Detalle = tskResultConsulta.Result.ValueElement.ToList();
+
+            return View(dto);
+        }
+
     }
 }

@@ -5,5 +5,100 @@
     Layout = "_Layout";
 }
 
+<div id="loader-overlay" class="loader-overlay" style="display: none;">
+    <div class="loader"></div>
+</div>
 
+
+<div class="row">
+    <form id="frmEmpleados" asp-controller="Empleados" asp-action="ConsultaEmpleados" class="needs-validation" novalidate>
+        <div class="row mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
+                <label asp-for="@Model.IdEmpleado"></label>
+                <select asp-for="@Model.IdEmpleado" asp-items="@Model.LstEmpleadosSelect" class="form-control shadow-sm" required autocomplete="off">
+                </select>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 mt-auto">
+                <button class="btn shadow-sm btn-success" type="submit"><i class="bi bi-check-square"></i> Generar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Consulta de empleados</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model.Detalle != null)
+                    {
+                        <table class="table table-bordered table-hover table-sm" id="tblConsultaEmpleados">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Teléfono</th>
+                                    <th>Fecha Creación</th>
+                                    <th>Tipo</th>
+                                    <th>Salario</th>
+                                    <th>Supervisor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var ln in Model.Detalle)
+                                {
+                                    <tr>
+                                        <td>@ln.NombreEmpleado</td>
+                                        <td>@ln.Telefono</td>
+                                        <td>@ln.FechaCreacion.ToString("dd-MM-yyyy")</td>
+                                        <td>@ln.TipoEmpleado</td>
+                                        <td>@ln.Salario.ToString("n2")</td>
+                                        <td>@ln.NombreSupervisor</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+
+    $("#tblConsultaEmpleados").DataTable({
+        "language": {
+            "emptyTable": "No hay registros",
+            "search": "Buscar",
+            "searchPlaceholder": "Búsqueda rápida",
+            "decimal": "",
+            "emptyTable": "No hay datos disponibles",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ items",
+            "infoEmpty": "Mostrando 0 items",
+            "infoFiltered": "(filtrado de _MAX_ total items)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ items",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "paginate": {
+                "first": "Primera",
+                "last": "Última",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        select: true
+    });
+
+    document.getElementById("frmEmpleados").onsubmit = function () {
+        document.getElementById("loaderOverlay").style.display = "flex";
+    };
+
+</script>
 

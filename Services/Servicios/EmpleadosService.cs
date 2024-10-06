@@ -4,6 +4,8 @@ using Models.Dtos.Results;
 using Models.Entities;
 using Services.Interfaces;
 using Services.UnitOfWork;
+using System.Data;
+using System.Text;
 
 namespace Services.Servicios
 {
@@ -227,22 +229,34 @@ namespace Services.Servicios
             }
         }
 
-
-        public async Task<ListConsultaEmpleadosModel<>> ConsultaEmpleadosSp(string idEmpleado)
+        public async Task<List<ConsultaEmpleadosModel>> ConsultaEmpleadosSp(string idEmpleado, string conn)
         {
             try
             {
-                await _unitOfWork.BeginTransaction();
-                var repository = _unitOfWork.GetRepository<Empleados>();
-                repository.Update(empleado);
-                await _unitOfWork.Commit();
-                return true;
+                var sql = new StringBuilder();
+                sql.AppendLine("EXEC ObtenerEmpleados ");
+                sql.AppendLine($"@IdEmpleado = '{idEmpleado}'");
 
+                var dt = await _unitOfWork.ExecuteQuery(conn, sql.ToString());
+                var result = new List<ConsultaEmpleadosModel>();
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    result.Add(new ConsultaEmpleadosModel(){
+                        NombreEmpleado = dr["Nombre del Empleado"].ToString(),
+                        NombreSupervisor = dr["Nombre del Supervidor"].ToString(),
+                        FechaCreacion = DateTime.Parse(dr["Fecha Creación"].ToString()),
+                        Salario = decimal.Parse(dr["Salario"].ToString()),
+                        Telefono = dr["Teléfono"].ToString(),
+                        TipoEmpleado = dr["Tipo de empleado"].ToString()
+                    });
+                }
+
+                return result;
             }
-            catch (Exception)
+            catch (Exception EX)
             {
-
-                throw;
+                throw new Exception("Error al realizar consulta de SP ObtenerEmpleados");
             }
         }
     }
