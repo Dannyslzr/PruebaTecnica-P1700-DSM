@@ -9,6 +9,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUtilidades, UtilidadesService>();
 builder.Services.AddScoped<IUsuarios, UsuariosService>();
 builder.Services.AddScoped<IEmpleados, EmpleadosService>();
+builder.Services.AddScoped<ITiendas, TiendasService>();
 
 var strCon = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DbContextP1700>(options => options.UseSqlServer(strCon));
@@ -22,6 +23,8 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
     });
+
+builder.WebHost.UseUrls("https://localhost:7788");
 
 var app = builder.Build();
 

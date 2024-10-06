@@ -4,21 +4,22 @@
     Layout = "_Layout";
 }
 
-<h1 class="h3 mb-4 text-gray-800">Empleados</h1>
+<div id="loader-overlay" class="loader-overlay" style="display: none;">
+    <div class="loader"></div>
+</div>
 
 <div class="row mb-3">
     <div class="col-12">
-        <a class="btn shadow-sm btn-primary" onclick="NuevoEmpleado()" href="#"><i class="fas fa-plus"></i> Nuevo</a>
-        <a class="btn shadow-sm btn-secondary" onclick="EditarEmpleado()" href="#"><i class="fas fa-plus"></i> Editar</a>
-        <a class="btn shadow-sm btn-danger" onclick="EliminarEmpleado()" href="#"><i class="fas fa-plus"></i> Eliminar</a>
-        <a class="btn shadow-sm btn-primary" onclick="testAlert()" href="#">test</a>
+        <a class="btn shadow-sm btn-primary" onclick="NuevoEmpleado()" href="#"><i class="bi bi-plus-square"></i> Nuevo</a>
+        <a class="btn shadow-sm btn-secondary" onclick="EditarEmpleado()" href="#"><i class="bi bi-pencil-square"></i> Editar</a>
+        <a class="btn shadow-sm btn-danger" onclick="EliminarEmpleado()" href="#"><i class="bi bi-x-square"></i> Eliminar</a>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-12">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Empleados registrados</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Listado de empleados</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -27,15 +28,14 @@
                         <table class="table table-bordered table-hover table-sm" id="tblEmpleados">
                             <thead>
                                 <tr>
-                                    <th>Selecione</th>
+                                    <th>Seleccionar</th>
                                     <th>Identificación</th>
                                     <th>Nombre</th>
                                     <th>Primer apellido</th>
-                                    <th>Segundo apellido</th>
-                                    <th>Fecha creación</th>
+                                    <th>Segundo apellido</th>                    
                                     <th>Teléfono</th>
                                     <th>Tipo</th>
-                                    <th></th>
+                                    <th>Fecha creación</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,10 +52,6 @@
                                         <td>@ln.Telefono</td>
                                         <td>@ln.TipoEmpleado</td>
                                         <td>@ln.FechaCreacion.ToString("dd-MM-yyyy")</td>
-                                        <td>
-                                            <a class="btn shadow-sm btn-warning btn-sm" onclick="EditarEmpresa(@ln.IdEmpleado)" href="#"><i class="fas fa-edit"></i> Editar</a>
-                                            <a class="btn shadow-sm btn-danger btn-sm" onclick="EliminarEmpresa(@ln.IdEmpleado)" href="#"><i class="fas fa-trash-alt"></i> Eliminar</a>
-                                        </td>
                                     </tr>
                                 }
                             </tbody>

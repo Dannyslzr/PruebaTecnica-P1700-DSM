@@ -18,17 +18,31 @@ namespace Services.Servicios
             _utilidades = utilidades;
         }
 
-        public async Task<IEnumerable<EmpleadosDto>> ObtieneListaEmpleados()
+        public async Task<IEnumerable<EmpleadosDto>> ObtieneListaEmpleados(string idTienda)
         {
             try
             {
-                var lst = await _unitOfWork.GetRepository<Empleados>().All.ToListAsync();
+                
+                var predicate = PredicateBuilder.True<Empleados>();
+
+                if (!string.IsNullOrEmpty(idTienda))
+                    predicate = predicate.And(x => x.IdTienda.Equals(idTienda));
+
+                predicate = predicate.And(x => x.IndEliminado == false);
+
+
+                var lst = await _unitOfWork.GetRepository<Empleados>()
+                                           .All
+                                           .Where(predicate)
+                                           .ToListAsync();
+
                 var result = new List<EmpleadosDto>();
                 foreach (var ln in lst)
                 {
                     result.Add(new EmpleadosDto
                     {
                         IdEmpleado = ln.IdEmpleado,
+                        IdTienda = ln.IdTienda,
                         Identificacion = ln.Identificacion,
                         Nombre = ln.Nombre,
                         Apellido1 = ln.Apellido1,
@@ -64,6 +78,7 @@ namespace Services.Servicios
                 var result = new EmpleadosDto
                 {
                     IdEmpleado = empleado.IdEmpleado,
+                    IdTienda = empleado.IdTienda,
                     Identificacion = empleado.Identificacion,
                     Nombre = empleado.Nombre,
                     Apellido1 = empleado.Apellido1,
@@ -124,6 +139,7 @@ namespace Services.Servicios
                 var entity = new Empleados()
                 {
                     IdEmpleado = Guid.NewGuid().ToString(),
+                    IdTienda = dto.IdTienda,
                     Identificacion = dto.Identificacion,
                     Nombre = dto.Nombre,
                     Apellido1 = dto.Apellido1,
@@ -161,6 +177,7 @@ namespace Services.Servicios
                     .Where(x => x.IdEmpleado.Equals(dto.IdEmpleado))
                     .FirstAsync();
 
+                empleado.IdTienda = dto.IdTienda;
                 empleado.Identificacion = dto.Identificacion;
                 empleado.Nombre = dto.Nombre;
                 empleado.Apellido1 = dto.Apellido1;
@@ -170,6 +187,32 @@ namespace Services.Servicios
                 empleado.IdSupervisor = dto.IdSupervisor;
                 empleado.Salario = dto.Salario;
                 empleado.UActualiza = dto.UActualiza;
+                empleado.FechaActualiza = await _utilidades.ObtenerFecha();
+
+                var repository = _unitOfWork.GetRepository<Empleados>();
+                repository.Update(empleado);
+                await _unitOfWork.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.Rollback();
+                return false;
+            }
+        }
+
+        public async Task<bool> EliminarEmpleadoAsync(EmpleadosDto dto)
+        {
+            try
+            {
+                await _unitOfWork.BeginTransaction();
+
+                var empleado = await _unitOfWork.GetRepository<Empleados>()
+                    .All
+                    .Where(x => x.IdEmpleado.Equals(dto.IdEmpleado))
+                    .FirstAsync();
+
+                empleado.IndEliminado = true;
                 empleado.FechaActualiza = await _utilidades.ObtenerFecha();
 
                 var repository = _unitOfWork.GetRepository<Empleados>();

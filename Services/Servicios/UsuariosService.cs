@@ -1,8 +1,10 @@
-﻿using Models.Dtos.Usuario;
+﻿using Microsoft.EntityFrameworkCore;
+using Models.Dtos.Perfil;
+using Models.Dtos.Permisos;
+using Models.Dtos.Usuario;
 using Models.Entities;
 using Services.Interfaces;
 using Services.UnitOfWork;
-using System.Drawing;
 
 namespace Services.Servicios
 {
@@ -49,6 +51,71 @@ namespace Services.Servicios
             {
                 await _unitOfWork.Rollback();
                 return false;
+            }
+        }
+
+        public async Task<UsuarioInicioSesionDto> ValidaUsuarioSesionAsync(string correoStr, string constrasenaStr)
+        {
+            try
+            {
+                var constrasena = await _utilidades.EncriptaString(constrasenaStr);
+                var usuario = await _unitOfWork.GetRepository<Usuarios>().All
+                                                                        .Where(x => x.Correo == correoStr && x.Contrasenna == constrasena)
+                                                                        .FirstOrDefaultAsync();
+                if (usuario == null) return null;
+
+                var dto = new UsuarioInicioSesionDto()
+                {
+                    Id = usuario.IdUsuario,
+                    Nombre = usuario.Nombre + " " + usuario.Apellido1 + " " + usuario.Apellido2,
+                    Perfil = await ObtienePerfilUsuario(usuario.IdPerfil),
+                    IdTienda = usuario.IdTienda,
+                    jwtToken = ""
+                };
+
+                return dto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al realizar validacion de inicio de sesión");
+            }
+        }
+
+        public async Task<PerfilDto> ObtienePerfilUsuario(string idPerfil)
+        {
+            try
+            {
+                var perfilResult = await _unitOfWork.GetRepository<Perfil>().All
+                                                                        .Where(x => x.IdPerfil == idPerfil)
+                                                                        .FirstAsync();
+
+                var perfil = new PerfilDto()
+                {
+                    IdPerfil = perfilResult.IdPerfil,
+                    Descripcion = perfilResult.Descripcion,
+                };
+
+                perfil.Permisos = new List<PermisosDto>();
+
+                var perfilPermisosResult = await _unitOfWork.GetRepository<PerfilPermisos>().AllIncluding(per => per.Permiso)
+                                                                        .Where(x => x.IdPerfil == idPerfil)
+                                                                        .ToListAsync();
+
+                foreach (var ln in perfilPermisosResult)
+                {
+                    perfil.Permisos.Add(new PermisosDto
+                    {
+                        IdPermiso = ln.IdPermiso,
+                        Clave = ln.Permiso.Clave,
+                        Descripcion = ln.Permiso.Descripcion
+                    });
+                }
+
+                return perfil;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

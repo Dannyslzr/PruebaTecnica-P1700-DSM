@@ -21,7 +21,7 @@ namespace Api.Controllers
         {
             try
             {
-                var lst = await _empleados.ObtieneListaEmpleados();
+                var lst = await _empleados.ObtieneListaEmpleados(idTienda);
                 return Ok(Result<IEnumerable<EmpleadosDto>>.Success(lst, "Empleados consultados correctamente."));
             }
             catch (Exception)
@@ -87,6 +87,21 @@ namespace Api.Controllers
             catch (Exception)
             {
                 return BadRequest(Result<bool>.Failure("No es posible actualizar empleados en este momento"));
+            }
+        }
+
+        [HttpPost]
+        [Route("EliminarEmpleado/")]
+        public async Task<IActionResult> EliminarEmpleadoAsync(EmpleadosDto dto)
+        {
+            try
+            {
+                var result = await _empleados.EliminarEmpleadoAsync(dto);
+                return Ok(Result<bool>.Success(result, "Empleado eliminado correctamente."));
+            }
+            catch (Exception)
+            {
+                return BadRequest(Result<bool>.Failure("No es posible eliminar empleados en este momento"));
             }
         }
     }

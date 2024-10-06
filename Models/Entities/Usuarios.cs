@@ -8,6 +8,15 @@ namespace Models.Entities
         [Required]
         [StringLength(50)]
         public string IdUsuario { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string IdTienda { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string IdPerfil{ get; set; }
+
         [Required]
         [StringLength(30)]
         public string Nombre { get; set; }

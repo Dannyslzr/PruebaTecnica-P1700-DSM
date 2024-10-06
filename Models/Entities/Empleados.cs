@@ -9,6 +9,9 @@ namespace Models.Entities
         [StringLength(50)]
         public string IdEmpleado { get; set; }
         [Required]
+        [StringLength(50)]
+        public string IdTienda { get; set; }
+        [Required]
         [StringLength(15)]
         public string Identificacion { get; set; }
         [Required]
@@ -38,5 +41,6 @@ namespace Models.Entities
         public DateTime FechaCreacion { get; set; }
         public string? UActualiza { get; set; }
         public DateTime? FechaActualiza { get; set; }
+        public bool IndEliminado { get; set; }
     }
 }

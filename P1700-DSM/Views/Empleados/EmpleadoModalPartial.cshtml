@@ -8,7 +8,16 @@
     <input asp-for="@Model.UActualiza" type="hidden" class="form-control shadow-sm" />
     <input asp-for="@Model.FechaActualiza" type="hidden" class="form-control shadow-sm" />
     <input asp-for="@Model.ModoEdicion" type="hidden" class="form-control shadow-sm" />
-    
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 mt-2">
+            <label asp-for="@Model.IdTienda"></label>
+            <select asp-for="@Model.IdTienda" asp-items="@Model.LstTiendasSelect" class="form-control shadow-sm" required autocomplete="off">
+            </select>
+            <div class="invalid-feedback">
+                Seleccione la tienda
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-4 col-sm-12 mt-2">
             <label asp-for="@Model.Nombre"></label>
@@ -75,16 +84,16 @@
     @if (@Model.ModoEdicion == "Crear")
     {
         <div class="row mt-3">
-            <div class="d-grid gap-2 col-2 mx-auto">
-                <button class="btn shadow-sm btn-success" type="submit"><i class="fas fa-edit"></i> Guardar</button>
+            <div class="d-grid gap-2 col-3 mx-auto">
+                <button class="btn shadow-sm btn-success" type="submit"><i class="bi bi-check-square"></i> Guardar</button>
             </div>
         </div>
     }
     else if (@Model.ModoEdicion == "Editar")
     {
         <div class="row mt-3">
-            <div class="d-grid gap-2 col-2 mx-auto">
-                <button class="btn shadow-sm btn-warning" type="submit"><i class="fas fa-edit"></i> Actualizar</button>
+            <div class="d-grid gap-2 col-3 mx-auto">
+                <button class="btn shadow-sm btn-warning" type="submit"><i class="bi bi-check2-square"></i> Actualizar</button>
             </div>
         </div>
     }

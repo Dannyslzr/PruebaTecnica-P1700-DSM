@@ -8,6 +8,23 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUtilidades, UtilidadesWeb>();
 
+//builder.Services.AddSession(options =>
+//{
+//    options.IdleTimeout = TimeSpan.FromMinutes(30);
+//    options.Cookie.HttpOnly = true;
+//    options.Cookie.IsEssential = true;
+//});
+
+
+builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
+{
+    options.Cookie.Name = "Gym.Cookie";
+    options.LoginPath = "/Usuario/InicioSesion";
+    options.AccessDeniedPath = "/Error/Forbidden";
+    options.LogoutPath = "/Home/Index";
+});
+
+
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -15,17 +32,21 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
     });
 
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 ApiData.URL = builder.Configuration.GetConnectionString("API");
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseRouting();
+//app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",

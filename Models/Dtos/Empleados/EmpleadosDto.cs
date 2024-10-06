@@ -6,6 +6,10 @@ namespace Models.Dtos.Empleados
     public class EmpleadosDto
     {
         public string IdEmpleado { get; set; }
+
+        [DisplayName("Tienda")]
+        public string IdTienda { get; set; }
+
         [DisplayName("Identificación")]
         public string Identificacion { get; set; }
 
@@ -35,6 +39,7 @@ namespace Models.Dtos.Empleados
         public DateTime? FechaActualiza { get; set; }
 
         public SelectList? LstEmpleadosSelect { get; set; }
+        public SelectList? LstTiendasSelect { get; set; }
         public string ModoEdicion {  get; set; }
     }
 }

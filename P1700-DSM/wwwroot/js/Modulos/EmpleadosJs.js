@@ -1,4 +1,10 @@
-﻿function NuevoEmpleado() {
+﻿$(document).ajaxStart(function () {
+    $("#loader-overlay").show();
+}).ajaxStop(function () {
+    $("#loader-overlay").hide();
+});
+
+function NuevoEmpleado() {
     $.ajax({
         type: "POST",
         url: "/Empleados/CrearPartial/",
@@ -75,7 +81,7 @@ function EditarEmpleado() {
         });
 
     } else {
-        Swal.fire("Seleccione un empleado para editar.");
+        Swal.fire("Seleccione un empleado.");
     }
 }
 
@@ -107,11 +113,51 @@ function ActializarEmpleado() {
 function Procesar() {
 
     var modo = $("#ModoEdicion").val();
-
     if (modo == "Crear") {
         RegistrarEmpleado();
     } else if (modo == "Editar") {
         ActializarEmpleado();
+    }
+}
+
+
+function EliminarEmpleado() {
+    var selectedEmployee = document.querySelector('input[name="selectedEmployee"]:checked');
+
+    if (selectedEmployee) {
+        var idEmpleado = selectedEmployee.value;
+
+        Swal.fire({
+            title: "¿Desea eliminar el empleado seleccionado?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+            denyButtonText: `Cancelar`
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Empleados/Eliminar?idEmpleado=" + idEmpleado,
+                    data: '',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (response) {
+                        Swal.fire("Empleado eliminado", "", "success");
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+                
+            }
+        });
+    } else {
+        Swal.fire("Seleccione un empleado.");
     }
 }
 
