@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "P1700-DSM\Web.csproj", "{367FCB60-405E-4625-AB69-EC9900B0C44E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "P1700-DSM\Web.csproj", "{367FCB60-405E-4625-AB69-EC9900B0C44E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{77D59DCE-00BF-4992-AC08-FB9961A79CC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{77D59DCE-00BF-4992-AC08-FB9961A79CC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{04B30472-9D6F-4D7D-B927-11D9F98469C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{04B30472-9D6F-4D7D-B927-11D9F98469C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{CB96116C-038F-4BF5-9BBB-BF7E8028C648}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{CB96116C-038F-4BF5-9BBB-BF7E8028C648}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
