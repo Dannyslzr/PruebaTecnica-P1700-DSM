@@ -2,6 +2,8 @@ Elaborado por: Danny Salazar Méndez.
 
 Proyecto de prueba técnica para Grupo Prides.
 
+
+
 **Arrancar solución.**
 
 La solución cuenta con 2 proyectos que debe de arrancar cuando se vaya a ejecutar.
@@ -16,6 +18,7 @@ Por lo cual se debe de configurar el arranque de ambos, para ello debe de dar cl
 Acá deberá activar el arranque de múltiples proyectos. 
 
 ![image](https://github.com/user-attachments/assets/8083f221-9a1a-4c67-9e55-476894dee6ef)
+
 
 **Configurar cadena de conexión:**
 
