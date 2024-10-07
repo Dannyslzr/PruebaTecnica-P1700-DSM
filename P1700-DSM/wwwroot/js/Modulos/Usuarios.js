@@ -5,7 +5,6 @@
 });
 
 function IniciarSesion() {
-
     $.ajax({
         type: "POST",
         url: "/Usuario/IniciarSesion/",
@@ -95,5 +94,4 @@ function RegistrarUsuario() {
             });
         }
     });
-
 }

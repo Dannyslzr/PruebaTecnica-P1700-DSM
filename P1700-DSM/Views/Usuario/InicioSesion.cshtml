@@ -12,6 +12,10 @@
     <div class="card" style="width: 35%;">
         <div class="row align-items-center text-center">
             <div class="card-body m-2">
+
+                <div class="row mb-3">
+                    <img src="~/img/logo-prides.png" />
+                </div>
                 <h5 class="mb-3 f-w-400">Ingresa tus credenciales</h5>
                 <div class="row">
 
@@ -35,8 +39,8 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-block btn-primary mb-4" type="submit">Ingresar</button>
-                    <button class="btn btn-block btn-secondary mb-4" type="button" onclick="NuevoUsuario()">Registrarse</button>
+                    <button class="btn btn-block btn-primary mb-4" type="submit"><i class="bi bi-box-arrow-in-right"></i> Ingresar</button>
+                    <button class="btn btn-block btn-secondary mb-4" type="button" onclick="NuevoUsuario()"><i class="bi bi-person-fill-add"></i> Registrarse</button>
                 </form>
                 </div>
             </div>
@@ -62,31 +66,10 @@
 </div>
 
 <script>
-    // (function () {
-    //     'use strict'
-    //     // Obtener todos los formularios a los que queremos aplicar estilos de validación de Bootstrap personalizados
-    //     var forms = document.querySelectorAll('.needs-validation')
-    //     // Bucle sobre ellos y evitar el envío
-    //     Array.prototype.slice.call(forms)
-    //         .forEach(function (form) {
-    //             form.addEventListener('submit', function (event) {
-    //                 if (!form.checkValidity()) {
-    //                     event.preventDefault()
-    //                     event.stopPropagation()
-    //                 }
-
-    //                 form.classList.add('was-validated')
-    //             }, false)
-    //         })
-    // })()
-
     (function () {
         'use strict'
 
-        // Obtener todos los formularios a los que queremos aplicar estilos de validación de Bootstrap personalizados
         var forms = document.querySelectorAll('.needs-validation')
-
-        // Bucle sobre ellos y evitar el envío si la validación no es correcta
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
                 form.addEventListener('submit', function (event) {
@@ -95,7 +78,7 @@
                         event.stopPropagation()
                     } else {
                         event.preventDefault(); // Prevenir el submit por defecto
-                        IniciarSesion(); // Llamar a la función si el formulario es válido
+                        IniciarSesion(); 
                     }
 
                     form.classList.add('was-validated')
