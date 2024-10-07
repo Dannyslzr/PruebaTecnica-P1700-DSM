@@ -2,7 +2,6 @@
 using Models.Dtos.Empleados;
 using Models.Dtos.Perfil;
 using Models.Dtos.Results;
-using Models.Entities;
 using Services.Interfaces;
 
 namespace Api.Controllers
@@ -138,7 +137,7 @@ namespace Api.Controllers
         {
             try
             {
-                var result = await  _perfil.ObtieneListaPerfilUsuario();
+                var result = await _perfil.ObtieneListaPerfilUsuario();
                 return Ok(Result<List<PerfilDto>>.Success(result, "Perfiles consultados correctamente"));
             }
             catch (Exception)

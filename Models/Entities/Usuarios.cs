@@ -16,7 +16,7 @@ namespace Models.Entities
 
         [Required]
         [StringLength(50)]
-        public string IdPerfil{ get; set; }
+        public string IdPerfil { get; set; }
 
         [Required]
         [StringLength(20)]

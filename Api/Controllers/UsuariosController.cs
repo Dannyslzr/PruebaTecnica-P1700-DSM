@@ -27,7 +27,7 @@ namespace Api.Controllers
             _usuarios = usuarios;
             _perfil = perfil;
         }
-        
+
         [HttpPost("Registrar")]
         public async Task<IActionResult> RegistrarUsuarioAsync(UsuarioDto dto)
         {

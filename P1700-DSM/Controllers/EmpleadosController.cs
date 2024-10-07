@@ -29,7 +29,7 @@ namespace P1700_DSM.Controllers
 
             if (!result.IsSuccess)
             {
-               //tirar error
+                //tirar error
             }
 
             var model = new EmpleadosViewModel()
@@ -213,7 +213,7 @@ namespace P1700_DSM.Controllers
         [HttpPost]
         public async Task<IActionResult> ConsultaEmpleados(ConsultaEmpleadosViewModel dto)
         {
-            var urlConsulta = ApiData.URL + $"Empleados/ObtieneConsultaEmpleados/"+dto.IdEmpleado;
+            var urlConsulta = ApiData.URL + $"Empleados/ObtieneConsultaEmpleados/" + dto.IdEmpleado;
             var tskResultConsulta = _utils.GetAsync<IEnumerable<ConsultaEmpleadosModel>>(urlConsulta, "");
             var idTienda = User.FindFirst("IdTienda")?.Value;
             var urlDll = ApiData.URL + $"Empleados/ObtenerListaEmpleadosDll/{idTienda}";

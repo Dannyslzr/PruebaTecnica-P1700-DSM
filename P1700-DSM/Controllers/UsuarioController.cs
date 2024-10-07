@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Models;
-using Models.Dtos.Empleados;
 using Models.Dtos.Perfil;
 using Models.Dtos.Tiendas;
 using Models.Dtos.Usuario;
@@ -19,14 +18,14 @@ namespace P1700_DSM.Controllers
 
         public UsuarioController(IUtilidades utils)
         {
-            _utils = utils;     
+            _utils = utils;
         }
 
         [AllowAnonymous]
         public IActionResult InicioSesion()
-		{
-			return View(new InicioSesionDto());
-		}
+        {
+            return View(new InicioSesionDto());
+        }
 
         [AllowAnonymous]
         [HttpPost]
@@ -61,7 +60,7 @@ namespace P1700_DSM.Controllers
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
 
-                return RedirectToAction("Index", "Home");          
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
@@ -112,7 +111,7 @@ namespace P1700_DSM.Controllers
         {
             try
             {
-                if(dto.Contrasenna != dto.RepetirContrasenna)
+                if (dto.Contrasenna != dto.RepetirContrasenna)
                 {
                     return BadRequest("Contraseñas no concuerdan");
                 }

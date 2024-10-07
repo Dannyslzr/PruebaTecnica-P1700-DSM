@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.Dtos.Empleados;
-using Models.Dtos.Results;
 using Models.Entities;
 using Services.Interfaces;
 using Services.UnitOfWork;
@@ -24,7 +23,7 @@ namespace Services.Servicios
         {
             try
             {
-                
+
                 var predicate = PredicateBuilder.True<Empleados>();
 
                 if (!string.IsNullOrEmpty(idTienda))
@@ -121,7 +120,7 @@ namespace Services.Servicios
                     result.Add(new EmpleadosDllDto
                     {
                         IdEmpleado = ln.IdEmpleado,
-                        Nombre = ln.Nombre + " " +ln.Apellido1 + " " + ln.Apellido2
+                        Nombre = ln.Nombre + " " + ln.Apellido1 + " " + ln.Apellido2
                     });
                 }
 
@@ -146,7 +145,7 @@ namespace Services.Servicios
                     Nombre = dto.Nombre,
                     Apellido1 = dto.Apellido1,
                     Apellido2 = dto.Apellido2,
-                    Telefono = dto.Telefono,        
+                    Telefono = dto.Telefono,
                     Salario = dto.Salario,
                     TipoEmpleado = dto.TipoEmpleado,
                     IdSupervisor = dto.IdSupervisor,
@@ -242,7 +241,8 @@ namespace Services.Servicios
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    result.Add(new ConsultaEmpleadosModel(){
+                    result.Add(new ConsultaEmpleadosModel()
+                    {
                         NombreEmpleado = dr["Nombre del Empleado"].ToString(),
                         NombreSupervisor = dr["Nombre del Supervidor"].ToString(),
                         FechaCreacion = DateTime.Parse(dr["Fecha Creación"].ToString()),

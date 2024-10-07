@@ -2,6 +2,6 @@
 {
     public class EmpleadosViewModel
     {
-        public List<EmpleadosDto> LstEmpleados {  get; set; }
+        public List<EmpleadosDto> LstEmpleados { get; set; }
     }
 }

@@ -30,11 +30,10 @@ builder.WebHost.UseUrls("https://localhost:7788");
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI(options => 
+app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json","P1700 API");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "P1700 API");
 });
-
 
 app.MapControllers();
 

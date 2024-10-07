@@ -40,6 +40,6 @@ namespace Models.Dtos.Empleados
 
         public SelectList? LstEmpleadosSelect { get; set; }
         public SelectList? LstTiendasSelect { get; set; }
-        public string ModoEdicion {  get; set; }
+        public string ModoEdicion { get; set; }
     }
 }

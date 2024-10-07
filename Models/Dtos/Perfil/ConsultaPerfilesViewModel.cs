@@ -2,6 +2,6 @@
 {
     public class ConsultaPerfilesViewModel
     {
-        public List<PerfilDto> Perfiles {  get; set; }
+        public List<PerfilDto> Perfiles { get; set; }
     }
 }

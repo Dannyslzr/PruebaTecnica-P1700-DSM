@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Services.UnitOfWork
 {

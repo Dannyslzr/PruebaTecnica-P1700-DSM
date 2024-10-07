@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models.Dtos.Empleados;
 using Models.Dtos.Tiendas;
 using Models.Entities;
 using Services.Interfaces;
@@ -31,7 +30,7 @@ namespace Services.Servicios
                     {
                         IdTienda = ln.IdTienda,
                         Nombre = ln.Nombre,
-                       
+
                     });
                 }
 

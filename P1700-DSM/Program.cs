@@ -5,16 +5,7 @@ using Web.Utilidades;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddScoped<IUtilidades, UtilidadesWeb>();
-
-//builder.Services.AddSession(options =>
-//{
-//    options.IdleTimeout = TimeSpan.FromMinutes(30);
-//    options.Cookie.HttpOnly = true;
-//    options.Cookie.IsEssential = true;
-//});
-
 
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
 {
@@ -23,8 +14,6 @@ builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", opt
     options.AccessDeniedPath = "/Forbidden";
     options.LogoutPath = "/Home/Index";
 });
-
-
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -43,10 +32,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-//app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllerRoute(
     name: "default",
