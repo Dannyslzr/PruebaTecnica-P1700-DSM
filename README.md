@@ -1,4 +1,5 @@
-Elaborado por Danny Salazar Méndez
+Elaborado por: Danny Salazar Méndez.
+
 Proyecto de prueba técnica para Grupo Prides.
 
 **Arrancar solución.**
