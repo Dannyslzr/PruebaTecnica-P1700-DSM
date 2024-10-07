@@ -46,5 +46,7 @@ Pero deberá de cambiar el URL que le haya cargado en el archivo “appsetting.j
 **Datos de inicio de sesión en la Web.**
 
 Correo: danny_slzr@gmail.com
+
 Contraseña: 123
+
 De igual manera podrá crear usuarios en la app.
