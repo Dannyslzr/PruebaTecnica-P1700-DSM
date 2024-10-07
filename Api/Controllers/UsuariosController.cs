@@ -81,6 +81,7 @@ namespace Api.Controllers
                 {
                     Id = usuario.Id,
                     IdTienda = usuario.IdTienda,
+                    TiendaNombre = usuario.TiendaNombre,
                     Nombre = usuario.Nombre,
                     jwtToken = resultToken,
                     Perfil = usuario.Perfil,

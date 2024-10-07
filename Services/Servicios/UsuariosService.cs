@@ -60,7 +60,7 @@ namespace Services.Servicios
             try
             {
                 var constrasena = await _utilidades.EncriptaString(constrasenaStr);
-                var usuario = await _unitOfWork.GetRepository<Usuarios>().All
+                var usuario = await _unitOfWork.GetRepository<Usuarios>().AllIncluding(ti => ti.Tiendas)
                                                                         .Where(x => x.Correo == correoStr && x.Contrasenna == constrasena)
                                                                         .FirstOrDefaultAsync();
                 if (usuario == null) return null;
@@ -71,6 +71,7 @@ namespace Services.Servicios
                     Nombre = usuario.Nombre + " " + usuario.Apellido1 + " " + usuario.Apellido2,
                     Perfil = await ObtienePerfilUsuario(usuario.IdPerfil),
                     IdTienda = usuario.IdTienda,
+                    TiendaNombre = usuario.Tiendas.Nombre,
                     jwtToken = ""
                 };
 

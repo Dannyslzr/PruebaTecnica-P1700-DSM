@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Entities
 {
@@ -44,5 +45,8 @@ namespace Models.Entities
         public DateTime FechaCreacion { get; set; }
         public string? UActualiza { get; set; }
         public DateTime? FechaActualiza { get; set; }
+
+        [ForeignKey("IdTienda")]
+        public Tiendas Tiendas { get; set; }
     }
 }

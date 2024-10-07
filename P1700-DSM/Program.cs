@@ -20,7 +20,7 @@ builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", opt
 {
     options.Cookie.Name = "Gym.Cookie";
     options.LoginPath = "/Usuario/InicioSesion";
-    options.AccessDeniedPath = "/Error/Forbidden";
+    options.AccessDeniedPath = "/Forbidden";
     options.LogoutPath = "/Home/Index";
 });
 

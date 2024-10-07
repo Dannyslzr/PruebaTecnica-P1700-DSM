@@ -14,15 +14,16 @@ namespace P1700_DSM.Controllers
     {
         private readonly IUtilidades _utils;
 
-        private string idTienda = "BD3AD5B1-76AF-41AD-A39B-CC2E58B487B9";
-
         public EmpleadosController(IUtilidades utils)
         {
             _utils = utils;
         }
 
+        [Authorize(Roles = "RegEmp")]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var idTienda = User.FindFirst("IdTienda")?.Value;
             var url = ApiData.URL + $"Empleados/ObtenerListaEmpleados/{idTienda}";
             var result = await _utils.GetAsync<IEnumerable<EmpleadosDto>>(url, "");
 
@@ -39,10 +40,12 @@ namespace P1700_DSM.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "RegEmp")]
         public async Task<IActionResult> CrearPartial()
         {
             try
             {
+                var idTienda = User.FindFirst("IdTienda")?.Value;
                 var url = ApiData.URL + $"Empleados/ObtenerListaEmpleadosDll/{idTienda}";
                 var result = await _utils.GetAsync<IEnumerable<EmpleadosDllDto>>(url, "");
 
@@ -65,6 +68,7 @@ namespace P1700_DSM.Controllers
             }
         }
 
+        [Authorize(Roles = "RegEmp")]
         [HttpPost]
         public async Task<IActionResult> Crear(EmpleadosDto model)
         {
@@ -94,10 +98,12 @@ namespace P1700_DSM.Controllers
             }
         }
 
+        [Authorize(Roles = "RegEmp")]
         public async Task<IActionResult> ActualizarPartial(string idEmpleado)
         {
             try
             {
+                var idTienda = User.FindFirst("IdTienda")?.Value;
                 var urlEmpleado = ApiData.URL + $"Empleados/ObtenerEmpleadosXId/{idEmpleado}";
                 var tskResultEmpleado = _utils.GetAsync<EmpleadosDto>(urlEmpleado, "");
                 var urlDll = ApiData.URL + $"Empleados/ObtenerListaEmpleadosDll/{idTienda}";
@@ -119,7 +125,7 @@ namespace P1700_DSM.Controllers
             }
         }
 
-
+        [Authorize(Roles = "RegEmp")]
         [HttpPost]
         public async Task<IActionResult> Actualizar(EmpleadosDto model)
         {
@@ -148,6 +154,7 @@ namespace P1700_DSM.Controllers
             }
         }
 
+        [Authorize(Roles = "RegEmp")]
         [HttpGet]
         public async Task<IActionResult> Eliminar(string idEmpleado)
         {
@@ -176,12 +183,13 @@ namespace P1700_DSM.Controllers
             }
         }
 
+        [Authorize(Roles = "ConEmp")]
         [HttpGet]
         public async Task<IActionResult> ConsultaEmpleados()
         {
             var urlConsulta = ApiData.URL + $"Empleados/ObtieneConsultaEmpleados/todos";
             var tskResultConsulta = _utils.GetAsync<IEnumerable<ConsultaEmpleadosModel>>(urlConsulta, "");
-
+            var idTienda = User.FindFirst("IdTienda")?.Value;
             var urlDll = ApiData.URL + $"Empleados/ObtenerListaEmpleadosDll/{idTienda}";
             var tskResultEmpleadosDll = _utils.GetAsync<IEnumerable<EmpleadosDllDto>>(urlDll, "");
 
@@ -201,12 +209,13 @@ namespace P1700_DSM.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "ConEmp")]
         [HttpPost]
         public async Task<IActionResult> ConsultaEmpleados(ConsultaEmpleadosViewModel dto)
         {
             var urlConsulta = ApiData.URL + $"Empleados/ObtieneConsultaEmpleados/"+dto.IdEmpleado;
             var tskResultConsulta = _utils.GetAsync<IEnumerable<ConsultaEmpleadosModel>>(urlConsulta, "");
-
+            var idTienda = User.FindFirst("IdTienda")?.Value;
             var urlDll = ApiData.URL + $"Empleados/ObtenerListaEmpleadosDll/{idTienda}";
             var tskResultEmpleadosDll = _utils.GetAsync<IEnumerable<EmpleadosDllDto>>(urlDll, "");
 
@@ -223,6 +232,7 @@ namespace P1700_DSM.Controllers
             return View(dto);
         }
 
+        [Authorize(Roles = "ConPer")]
         [HttpGet]
         public async Task<IActionResult> ConsultaPerfiles()
         {

@@ -47,7 +47,9 @@ namespace P1700_DSM.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, usu.Nombre),
-                    new Claim("IdUsuario",usu.Id)
+                    new Claim("IdUsuario",usu.Id),
+                    new Claim("IdTienda",usu.IdTienda),
+                    new Claim("TiendaNombre",usu.TiendaNombre),
                 };
 
                 foreach (var role in usu.Perfil.Permisos)
