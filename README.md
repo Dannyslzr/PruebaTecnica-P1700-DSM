@@ -3,6 +3,7 @@ Elaborado por: Danny Salazar Méndez.
 Proyecto de prueba técnica para Grupo Prides.
 
 **Arrancar solución.**
+
 La solución cuenta con 2 proyectos que debe de arrancar cuando se vaya a ejecutar.
 
 ![image](https://github.com/user-attachments/assets/7e1ff079-52e4-41c2-aecc-46d921497db9)
@@ -17,6 +18,7 @@ Acá deberá activar el arranque de múltiples proyectos.
 ![image](https://github.com/user-attachments/assets/8083f221-9a1a-4c67-9e55-476894dee6ef)
 
 **Configurar cadena de conexión:**
+
 La cadena de conexión a la base de datos se encontrara en el archivo “appsettings.json”, del proyecto “Api”.
 
 ![image](https://github.com/user-attachments/assets/1f03e56e-ecd3-4e82-b1ba-d0a84c5116ef)
@@ -28,6 +30,7 @@ Debe de configurar los datos de la cadena de conexión a su ambiente.
 
 
 **URL de arranque del Api:**
+
 He configurado la URL del Api para que se ejecute en “https://localhost:7788”, esto desde el archivo “Program.cs”, línea 28 del proyecto “Api”.
 En dado caso que otra aplicación este utilizando el url/puerto, puede eliminar esta línea.
 
