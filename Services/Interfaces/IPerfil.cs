@@ -5,5 +5,6 @@ namespace Services.Interfaces
     public interface IPerfil
     {
         Task<List<PerfilDllDto>> ObtieneListaPerfilesDll();
+        Task<List<PerfilDto>> ObtieneListaPerfilUsuario();
     }
 }

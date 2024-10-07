@@ -1,0 +1,85 @@
+﻿@model Models.Dtos.Perfil.ConsultaPerfilesViewModel
+
+@{
+    ViewData["Title"] = "Consulta perfiles";
+    Layout = "_Layout";
+}
+@* 
+<div id="loader-overlay" class="loader-overlay" style="display: none;">
+    <div class="loader"></div>
+</div> *@
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Consulta de permisos</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model != null)
+                    {
+                        @foreach(var perfil in Model.Perfiles)
+                        {
+                            <div class="row">
+                                <h3>Perfil: @perfil.Descripcion</h3>
+                            </div>
+
+                            <table class="table table-bordered table-hover table-sm" id="tblConsultaEmpleados">
+                                <thead>
+                                    <tr>
+                                        <th>Descripcion</th>
+                                        <th>Clave</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var permiso in perfil.Permisos)
+                                    {
+                                        <tr>
+                                            <td>@permiso.Descripcion</td>
+                                            <td>@permiso.Clave</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        } 
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <script>
+
+    $("#tblConsultaEmpleados").DataTable({
+        "language": {
+            "emptyTable": "No hay registros",
+            "search": "Buscar",
+            "searchPlaceholder": "Búsqueda rápida",
+            "decimal": "",
+            "emptyTable": "No hay datos disponibles",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ items",
+            "infoEmpty": "Mostrando 0 items",
+            "infoFiltered": "(filtrado de _MAX_ total items)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ items",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "paginate": {
+                "first": "Primera",
+                "last": "Última",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        select: true
+    });
+
+    document.getElementById("frmEmpleados").onsubmit = function () {
+        document.getElementById("loaderOverlay").style.display = "flex";
+    };
+
+</script>
+ *@

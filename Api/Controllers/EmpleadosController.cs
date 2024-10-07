@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models.Dtos.Empleados;
+using Models.Dtos.Perfil;
 using Models.Dtos.Results;
+using Models.Entities;
 using Services.Interfaces;
 
 namespace Api.Controllers
@@ -11,10 +13,12 @@ namespace Api.Controllers
     {
         private readonly IConfiguration _config;
         private readonly IEmpleados _empleados;
-        public EmpleadosController(IConfiguration config, IEmpleados empleados)
+        private readonly IPerfil _perfil;
+        public EmpleadosController(IConfiguration config, IEmpleados empleados, IPerfil perfil)
         {
             _config = config;
             _empleados = empleados;
+            _perfil = perfil;
         }
 
         [HttpGet]
@@ -125,6 +129,21 @@ namespace Api.Controllers
             catch (Exception)
             {
                 return BadRequest(Result<bool>.Failure("No es posible consultar empleados en este momento"));
+            }
+        }
+
+        [HttpGet]
+        [Route("ObtieneListaPerfiles/")]
+        public async Task<IActionResult> ObtieneListaPerfiles()
+        {
+            try
+            {
+                var result = await  _perfil.ObtieneListaPerfilUsuario();
+                return Ok(Result<List<PerfilDto>>.Success(result, "Perfiles consultados correctamente"));
+            }
+            catch (Exception)
+            {
+                return BadRequest(Result<bool>.Failure("No es posible consultar perfiles en este momento"));
             }
         }
     }

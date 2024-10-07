@@ -42,7 +42,7 @@ function RegistrarEmpleado() {
             }
 
             Swal.fire({
-                title: "Registrado correctamente2",
+                title: "Registrado correctamente",
                 showDenyButton: false,
                 showCancelButton: false,
                 confirmButtonText: "Ok",
@@ -54,13 +54,20 @@ function RegistrarEmpleado() {
                     window.location.href = 'Empleados';
                 } 
             });
-
         },
         failure: function (response) {
-            alert(response.responseText);
+            Swal.fire({
+                title: response.responseText,
+                text: "",
+                icon: "error"
+            });
         },
         error: function (response) {
-            alert(response.responseText);
+            Swal.fire({
+                title: response.responseText,
+                text: "",
+                icon: "error"
+            });
         }
     });
 }
@@ -82,10 +89,18 @@ function EditarEmpleado() {
                 $("#partialModal").modal('show');
             },
             failure: function (response) {
-                alert(response.responseText);
+                Swal.fire({
+                    title: response.responseText,
+                    text: "",
+                    icon: "error"
+                });
             },
             error: function (response) {
-                alert(response.responseText);
+                Swal.fire({
+                    title: response.responseText,
+                    text: "",
+                    icon: "error"
+                });
             }
         });
 
@@ -104,17 +119,39 @@ function ActializarEmpleado() {
         dataType: "html",
         success: function (response) {
 
+            var modalElement = document.getElementById('partialModal');
+            var modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+
             Swal.fire({
                 title: "Actualizado correctamente",
-                text: "",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Ok",
+                denyButtonText: `Don't save`,
                 icon: "success"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#loader-overlay").show();
+                    window.location.href = 'Empleados';
+                }
             });
         },
         failure: function (response) {
-            alert(response.responseText);
+            Swal.fire({
+                title: response.responseText,
+                text: "",
+                icon: "error"
+            });
         },
         error: function (response) {
-            alert(response.responseText);
+            Swal.fire({
+                title: response.responseText,
+                text: "",
+                icon: "error"
+            });
         }
     });
 }
@@ -128,7 +165,6 @@ function Procesar() {
         ActializarEmpleado();
     }
 }
-
 
 function EliminarEmpleado() {
     var selectedEmployee = document.querySelector('input[name="selectedEmployee"]:checked');
@@ -153,23 +189,41 @@ function EliminarEmpleado() {
                     contentType: "application/json; charset=utf-8",
                     dataType: "html",
                     success: function (response) {
-                        Swal.fire("Empleado eliminado", "", "success");
+                        Swal.fire({
+                            title: "Eliminado correctamente",
+                            showDenyButton: false,
+                            showCancelButton: false,
+                            confirmButtonText: "Ok",
+                            denyButtonText: `Don't save`,
+                            icon: "success"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#loader-overlay").show();
+                                window.location.href = 'Empleados';
+                            }
+                        });
                     },
                     failure: function (response) {
-                        alert(response.responseText);
+                        Swal.fire({
+                            title: response.responseText,
+                            text: "",
+                            icon: "error"
+                        });
                     },
                     error: function (response) {
-                        alert(response.responseText);
+                        Swal.fire({
+                            title: response.responseText,
+                            text: "",
+                            icon: "error"
+                        });
                     }
                 });
-                
             }
         });
     } else {
         Swal.fire("Seleccione un empleado.");
     }
 }
-
 
 $("#tblEmpleados").DataTable({
     "language": {

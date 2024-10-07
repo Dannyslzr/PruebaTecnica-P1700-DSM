@@ -1,4 +1,5 @@
-﻿using Models.Dtos.Usuario;
+﻿using Models.Dtos.Perfil;
+using Models.Dtos.Usuario;
 
 namespace Services.Interfaces
 {
@@ -6,5 +7,6 @@ namespace Services.Interfaces
     {
         Task<bool> CrearUsuarioAsync(UsuarioDto dto);
         Task<UsuarioInicioSesionDto> ValidaUsuarioSesionAsync(string correoStr, string constrasenaStr);
+        
     }
 }

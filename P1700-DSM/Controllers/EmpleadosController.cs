@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Models;
 using Models.Dtos.Empleados;
+using Models.Dtos.Perfil;
 using Models.Dtos.Tiendas;
 using Web.Utilidades;
 
@@ -222,5 +223,23 @@ namespace P1700_DSM.Controllers
             return View(dto);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ConsultaPerfiles()
+        {
+            var url = ApiData.URL + $"Empleados/ObtieneListaPerfiles";
+            var result = await _utils.GetAsync<List<PerfilDto>>(url, "");
+
+            if (!result.IsSuccess)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var dto = new ConsultaPerfilesViewModel()
+            {
+                Perfiles = result.ValueElement.ToList()
+            };
+
+            return View(dto);
+        }
     }
 }
