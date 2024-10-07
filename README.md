@@ -2,6 +2,12 @@ Elaborado por: Danny Salazar Méndez.
 
 Proyecto de prueba técnica para Grupo Prides.
 
+Archivos para base de datos:
+
+https://github.com/Dannyslzr/PruebaTecnica-P1700-DSM/blob/master/Api/Base%20de%20datos/Crear-BD.sql
+
+https://github.com/Dannyslzr/PruebaTecnica-P1700-DSM/blob/master/Api/Base%20de%20datos/Datos.sql
+
 
 
 **Arrancar solución.**
